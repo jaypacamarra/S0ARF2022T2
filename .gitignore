@@ -1,0 +1,9 @@
+.metadata*
+.DS_Store
+/S0ARF2022T2/.cproject
+/S0ARF2022T2/.DS_Store
+.settings
+Debug/
+Release/
+
+.gitignore.swp
