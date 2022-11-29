@@ -1,6 +1,6 @@
-#include "HAL_Battery.h"
-#include "HAL_NRF24.h"
-#include "HAL_Sensor.h"
+#include "DEV_Battery.h"
+#include "DEV_Sensor.h"
+#include "DEV_NRF24.h"
 
 int main(void)
 {
