@@ -9,11 +9,6 @@
 #define STM32L0X0_H_
 
 #include <stdint.h>
-#include "stm32L0x0_gpio_driver.h"
-#include "stm32l0x0_adc_driver.h"
-#include "stm32l0x0_spi_driver.h"
-#include "stm32l0x0_lptim_driver.h"
-#include "stm32l0x0_interrupt_driver.h"
 
 
 
@@ -160,7 +155,7 @@
 
 #define CRC_BASEADDR				(AHBPERIPH_BASEADDR + 0x3000U)		/* start address of CRC 				*/
 #define RCC_BASEADDR				(AHBPERIPH_BASEADDR + 0x1000U)		/* start address of RCC 				*/
-#define FLASH_BASEADDR				(AHBPERIPH_BASEADDR + 0x2000U)		/* start address of Flash register map	*/
+#define FLASH_REG_BASEADDR			(AHBPERIPH_BASEADDR + 0x2000U)		/* start address of Flash register map	*/
 #define DMA1_BASEADDR				(AHBPERIPH_BASEADDR + 0x0000U)		/* start address of DMA1 				*/
 
 /*
@@ -249,6 +244,29 @@ typedef struct {
 }RCC_RegDef_t;
 
 /*
+ *  EXTI register structure definition
+ */
+typedef struct {
+	__vo uint32_t IMR;		/* EXTI Interrupt mask register 			*/
+	__vo uint32_t EMR;		/* EXTI Event mask register 				*/
+	__vo uint32_t RTSR;		/* EXTI Rising trigger selection register 	*/
+	__vo uint32_t FTSR;		/* EXTI Falling trigger selection register 	*/
+	__vo uint32_t SWIER;	/* EXTI Software interrupt event register	*/
+	__vo uint32_t PR;		/* EXTI Pending register					*/
+}EXTI_RegDef_t;
+
+/*
+ * SYSCFG register structure definition
+ */
+typedef struct {
+	__vo uint32_t CFGR1;		/* SYSCFG memory remap register 						*/
+	__vo uint32_t CFGR2;		/* SYSCFG peripheral mode configuration register 		*/
+	__vo uint32_t EXTICR[4];	/* SYSCFG external interrupt configuration registers 	*/
+	uint32_t RESERVED[2];		/* Reserved 0x18 - 0x1C									*/
+	__vo uint32_t CFGR3;		/* Reference control and status register 				*/
+}SYSCFG_RegDef_t;
+
+/*
  * Peripheral definitions (peripheral base address typecasted to [XXXX_RegDeg_t])
  */
 
@@ -259,6 +277,8 @@ typedef struct {
 #define GPIOE		((GPIO_RegDef_t *)GPIOE_BASEADDR)	/* Use to access GPIOE peripheral */
 #define GPIOH		((GPIO_RegDef_t *)GPIOH_BASEADDR)	/* Use to access GPIOH peripheral */
 #define RCC			((RCC_RegDef_t *)RCC_BASEADDR)		/* Use to access RCC   peripheral */
+#define EXTI		((EXTI_RegDef_t *)EXTI_BASEADDR)	/* Use to access EXTI peripheral  */
+#define SYSCFG		((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)/* Use to access SYSCFG peripheral*/
 
 
 /************************* CLOCK ENABLE & DISABLE MACROS ************************ */
@@ -340,7 +360,23 @@ typedef struct {
 #define GPIOH_REG_RESET()	do{RCC->IOPRSTR |= (1<<7); RCC->IOPRSTR &= ~(1<<7); }while(0)
 
 
+/*
+ * Macro to return port code to configure SYSCFG peripheral's EXTICR register
+ * Returns port code [0 - 7] from a given GPIO port address
+ */
+#define GPIO_BASEADDR_TO_CODE(x)		( (x == GPIOA) ? 0 : \
+										  (x == GPIOB) ? 1 : \
+										  (x == GPIOC) ? 2 : \
+										  (x == GPIOD) ? 3 : \
+									      (x == GPIOE) ? 4 : \
+									      (x == GPIOH) ? 7 : 0 )
 
+
+#include "stm32L0x0_gpio_driver.h"
+#include "stm32L0x0_adc_driver.h"
+#include "stm32L0x0_spi_driver.h"
+#include "stm32L0x0_lptim_driver.h"
+#include "stm32L0x0_interrupt_driver.h"
 
 
 #endif /* STM32L0X0_H_ */
