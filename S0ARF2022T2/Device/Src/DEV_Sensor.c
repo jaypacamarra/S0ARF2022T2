@@ -43,7 +43,7 @@ void DEV_Sensor_Init(void) {
  * @Note              - none
  */
 uint8_t DEV_Sensor_Read(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber) {
-	return (pGPIOx->IDR & (1 << PinNumber)) > 1 ? GPIO_PIN_SET : GPIO_PIN_RESET;
+	return (pGPIOx->IDR & (1 << PinNumber)) != 0 ? GPIO_PIN_SET : GPIO_PIN_RESET;
 }
 
 

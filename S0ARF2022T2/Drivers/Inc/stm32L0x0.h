@@ -267,6 +267,20 @@ typedef struct {
 }SYSCFG_RegDef_t;
 
 /*
+ * LPTIM register structure definition
+ */
+typedef struct {
+	__vo uint32_t ISR;			/* LPTIM interrupt and status register 	*/
+	__vo uint32_t ICR;			/* LPTIM interrupt clear register 		*/
+	__vo uint32_t IER;			/* LPTIM interrupt enable register 		*/
+	__vo uint32_t CFGR;			/* LPTIM configuration register 		*/
+	__vo uint32_t CR;			/* LPTIM control register 				*/
+	__vo uint32_t CMP;			/* LPTIM compare register 				*/
+	__vo uint32_t ARR;			/* LPTIM auto reload register 			*/
+	__vo uint32_t CNT;			/* LPTIM counter register 				*/
+}LPTIM_RegDef_t;
+
+/*
  * Peripheral definitions (peripheral base address typecasted to [XXXX_RegDeg_t])
  */
 
@@ -279,6 +293,7 @@ typedef struct {
 #define RCC			((RCC_RegDef_t *)RCC_BASEADDR)		/* Use to access RCC   peripheral */
 #define EXTI		((EXTI_RegDef_t *)EXTI_BASEADDR)	/* Use to access EXTI peripheral  */
 #define SYSCFG		((SYSCFG_RegDef_t *)SYSCFG_BASEADDR)/* Use to access SYSCFG peripheral*/
+#define LPTIM		((LPTIM_RegDef_t *)LPTIM1_BASEADDR) /* Use to access LPTIM peripherals*/
 
 
 /************************* CLOCK ENABLE & DISABLE MACROS ************************ */
