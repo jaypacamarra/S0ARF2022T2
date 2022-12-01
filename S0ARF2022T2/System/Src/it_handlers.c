@@ -12,9 +12,13 @@
 
 #include "stm32L0x0.h"
 #include "DEV_Battery.h"
+#include "DEV_NRF24.h"
 
 void EXTI0_1_IRQHandler(void) {
 	GPIO_IRQHandling(GPIO_PIN_NO_1);
+	NRF24_Data_t nrf24Data = NRF24_Receive();
+
+	/* TODO: Process NRF24 received packet */
 }
 
 void LPTIM1_IRQHandler(void) {
